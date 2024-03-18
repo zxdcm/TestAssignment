@@ -17,7 +17,7 @@ internal class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<IIdentityContext, IdentityIdentity>();
+        services.AddScoped<IIdentityContext, IdentityContext>();
 
         services.AddSingleton(TimeProvider.System);
 
