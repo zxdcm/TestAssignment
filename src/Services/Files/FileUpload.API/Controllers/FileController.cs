@@ -12,9 +12,6 @@ public class FileController : ControllerBase
     private readonly IChunkedFileUploadService _chunkedFileUploadService;
     private readonly FileUploadOptions _fileUploadOptions;
     
-    private const string ChunkNumberHeader = "ChunkNumber";
-    private const string BlobIdHeader = "BlobId";
-
     public FileController(
         IChunkedFileUploadService chunkedFileUploadService, IOptions<FileUploadOptions> fileUploadOptions)
     {
@@ -37,18 +34,10 @@ public class FileController : ControllerBase
     }
     
     [HttpPost("chunk")]
-    public async Task<IActionResult> UploadChunk()
+    public async Task<IActionResult> UploadChunk([FromHeader] int chunkNumber, [FromHeader] Guid blobId)
     {
-        var validChunkNumber = int.TryParse(Request.Headers[ChunkNumberHeader], out var chunkNumber);
-        var validBlob = Guid.TryParse(Request.Headers[BlobIdHeader], out var blobId);
-
-        if (!validChunkNumber || !validBlob)
-        {
-            return BadRequest();
-        }
-
         // underlying blob storage api requires length property
-        // TODO: find a workaround to avoid buffering especially in memory
+        // TODO: find a workaround to avoid buffering in memory
         var stream = new MemoryStream();
         await Request.Body.CopyToAsync(stream);
         stream.Seek(0, SeekOrigin.Begin);
