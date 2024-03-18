@@ -8,4 +8,4 @@ e.g
 
 az deployment group create --name DevBlobStorageDeployment --resource-group rg-testassignment-dev-001 --parameters BlobStorage/dev.bicepparam
 
-az deployment group create --name BlobImageFunctions --resource-group rg-testassignment-dev-001 --parameters FunctionApps/BlobImageFunctions
+az deployment group create --name BlobImageFunctions --resource-group rg-testassignment-dev-001 --parameters FunctionApps/BlobImageFunctions/dev.bicepparam
