@@ -42,7 +42,7 @@ Posts container document estimated size:
 
 ## Functional Requirements
 
-#### onvert uploaded images to .jpg format and resize to 600x600
+#### Convert uploaded images to .jpg format and resize to 600x600
 - **Implementation Strategy**: 
   Conversion should be done in the background using an Azure Event Grid listener on the source blob.
 

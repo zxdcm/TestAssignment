@@ -92,6 +92,5 @@ public class ChunkedFileUploadService : IChunkedFileUploadService
         var base64BlockId = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(paddedNumber));
 
         return base64BlockId;
-
     }
 }

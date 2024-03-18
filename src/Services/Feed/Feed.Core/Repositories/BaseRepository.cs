@@ -1,5 +1,3 @@
 ﻿namespace Feed.Core.Repositories;
 
-public interface IBaseRepository
-{
-}
+public interface IBaseRepository;
