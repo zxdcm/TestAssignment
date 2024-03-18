@@ -38,7 +38,7 @@ Posts container document estimated size:
 **Total**: 144 + 20 + 200 + 10 + 472 + 100 + 200 = 1146 bytes => rounded to 2000 bytes
 
 1000 uploaded images per hour => 1000 post documents per hour; 
-24,000 posts per day => 8,760,000 per year => 16.3 GB per year
+24,000 posts per day => 8,760,000 per year => 16.3 GB per year for posts container
 
 ## Functional Requirements
 
@@ -57,6 +57,9 @@ Posts container document estimated size:
 #### Create Posts, Create Comments, Delete Comments 
 - **Implementation Strategy**: 
   Cosmos DB (NoSQL) is used as the main storage, where write calls take <= 15ms at the 99th percentile.
+  Posts and comments are stored in separate containers.
+  Posts container is partitioned by creatorId
+  Comments container is partitioned by postId
 
 #### Query Posts Sorted by Number of Comments
 - **Implementation Strategy**: 
