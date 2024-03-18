@@ -9,6 +9,6 @@
         "Uri": "https://sttestassignment001.blob.core.windows.net/",
         "DestinationContainer": "images",
         "MaxFileSizeInBytes": 104857600,
-        "AllowedContentTypes": ["image/gif", "image/png", "image/jpeg"]
+        "AllowedContentTypes": ["image/bmp", "image/png", "image/jpeg"]
     }
 }
