@@ -37,7 +37,7 @@ public class BlobImageConverter(
         [EventGridTrigger] EventGridEvent eventGridEvent
     )
     {
-        logger.LogInformation("Event type: [{type}], Event subject: [{subject}]", eventGridEvent.EventType, eventGridEvent.Subject);
+        logger.LogInformation("Event type: [{Type}], Event subject: [{Subject}]", eventGridEvent.EventType, eventGridEvent.Subject);
         
         if (!string.Equals(eventGridEvent.EventType, StorageBlobCreatedEvent, StringComparison.OrdinalIgnoreCase))
         {
@@ -51,12 +51,12 @@ public class BlobImageConverter(
         if (blobEventData.ContentLength > _blobStorageOptions.MaxFileSizeInBytes 
             || !_allowedContentTypes.Contains(blobEventData.ContentType))
         {
-            logger.LogWarning("Invalid blob [{blobName}]. [{ContentLength}] -- [{ContentType}].", blobName, blobEventData.ContentLength, blobEventData.ContentType);
+            logger.LogWarning("Invalid blob [{BlobName}]. [{ContentLength}] -- [{ContentType}].", blobName, blobEventData.ContentLength, blobEventData.ContentType);
             return;
             // todo: handle invalid file uploaded
         }
         
-        logger.LogInformation("Processing [{blobName}]", blobName);
+        logger.LogInformation("Processing [{BlobName}]", blobName);
         
         var sourceBlobClient = GetSourceBlobClient(containerName, blobName);
         var targetBlobClient = GetTargetBlobClient(blobName);
@@ -71,7 +71,7 @@ public class BlobImageConverter(
             }
         );
         
-        logger.LogInformation("Image conversion completed [{containerName}] -- [{blobName}]", _blobStorageOptions.DestinationContainer, blobName);
+        logger.LogInformation("Image conversion completed [{ContainerName}] -- [{BlobName}]", _blobStorageOptions.DestinationContainer, blobName);
     }
 
     private async Task<IImageConverter.ResultImageMetadata> ConvertAsync(BlobClient sourceBlobClient, BlobClient targetBlobClient)

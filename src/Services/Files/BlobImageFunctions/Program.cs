@@ -1,3 +1,4 @@
+using Azure.Identity;
 using BlobImageFunctions;
 using BlobImageFunctions.Options;
 using BlobImageFunctions.Services;
@@ -14,25 +15,24 @@ hostBuilder
         if (hostContext.HostingEnvironment.IsDevelopment())
         {
             config.AddJsonFile("local.settings.json");
-            config.AddUserSecrets<Program>();
         }
     });
 
 hostBuilder.ConfigureServices((hostContext, services) =>
 {
+    var blobStorageSection = hostContext.Configuration.GetSection("BlobStorage");
+    
     services.AddAzureClients(clientsBuilder =>
     {
-        var connectionString =
-            hostContext.Configuration.GetSection("BlobStorage").GetValue<string>("ConnectionString");
+        var blobStorageUri = blobStorageSection.GetValue<string>("Uri");
             
         clientsBuilder
-            .AddBlobServiceClient(connectionString)
+            .UseCredential(new DefaultAzureCredential())
+            .AddBlobServiceClient(new Uri(blobStorageUri))
             .WithName(BlobServiceClientDefaults.ClientName);
     });
     
-    services.Configure<BlobStorageOptions>(
-        hostContext.Configuration.GetSection("BlobStorage")
-    );
+    services.Configure<BlobStorageOptions>(blobStorageSection);
 
     services.AddSingleton<IImageConverter, ImageConverter>();
 });
