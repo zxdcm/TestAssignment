@@ -18,7 +18,7 @@ The FeedAPI is the core service responsible for CRUD over posts and comments.
 
 The `BlobImageFunctions` project contains the `BlobImageConverter` function, which does the following:
 - **Image Conversion**: Automatically converts uploaded images to .jpg.
-- **Image Resizing**: Resizes images to 600x600 pixels
+- **Image Resizing**: Resizes images to 600x600
 
 ### FileUploadAPI
 
@@ -42,11 +42,11 @@ Posts container document estimated size:
 
 ## Functional Requirements
 
-#### Convert Uploaded Images to .jpg Format and Resize to 600x600
+#### onvert uploaded images to .jpg format and resize to 600x600
 - **Implementation Strategy**: 
   Conversion should be done in the background using an Azure Event Grid listener on the source blob.
 
-#### Serve Images Only in .jpg Format
+#### Serve images only in .jpg format
 - **Implementation Strategy**: 
   The Feed API returns posts with URLs pointing to a CDN, which in turn points to the container with the converted blob.
 
@@ -61,15 +61,15 @@ Posts container document estimated size:
   Posts container is partitioned by creatorId
   Comments container is partitioned by postId
 
-#### Query Posts Sorted by Number of Comments
+#### Posts should be sorted by the number of comments (desc)
 - **Implementation Strategy**: 
   Cosmos DB query against posts container/dedicated container, partitioned by another key to avoid cross-partition queries. Given the usage forecast, it will take 3 years to fill up a physical partition (50GB) with posts, so cross-partition queries should not be a problem; however, this needs to be verified. There should be a change feed listener for the comments container that updates the posts' comments property and comments count. Later on, one of the following can be done:
     - Query against posts ordered by comments count and cache the result.
     - A background worker runs periodically and maintains structure (ordered IDs of posts) & hot posts in Redis cache.
 
-### Users Have a Slow and Unstable Internet Connection
+### Users have a slow and unstable internet connection
 
-#### Maximum Image Size - 100MB
+#### Maximum image size - 100MB
 - **Implementation Strategy**:
   File upload should be done in chunks using a dedicated api that handles uploads in chunks (e.g., 2 MB).
 
