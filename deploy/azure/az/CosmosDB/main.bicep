@@ -4,6 +4,9 @@ param location string = resourceGroup().location
 
 param databaseName string
 
+param principalId string 
+param roleDefinitionId string
+
 resource account 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' = {
   name: toLower(accountName)
   location: location
@@ -34,6 +37,18 @@ resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-11-15
     }
   }
 }
+
+resource cosmosDBRoleAssignment 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2021-10-15' = {
+  name: 'cosmosDBRoleAssignment'
+  parent: account
+  properties: {
+    principalId: principalId
+    roleDefinitionId: roleDefinitionId
+    scope: '/'
+  }
+}
+
+
 
 output location string = location
 output resourceGroupName string = resourceGroup().name
